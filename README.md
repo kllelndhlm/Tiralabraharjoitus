@@ -1,14 +1,10 @@
-# Määrittelydokumentti
-
-## Ohjelmointikieli
-Python (myös toivottu vertaisarvioitava
-
 ![GitHub Actions](https://github.com/kllelndhlm/Tiralabraharjoitus/workflows/CI/badge.svg)
 [![codecov](https://codecov.io/gh/kllelndhlm/Tiralabraharjoitus/branch/main/graph/badge.svg?token=HQX8XWSGPQ)](https://codecov.io/gh/kllelndhlm/Tiralabraharjoitus)
 
-# Tiralabraharjoitus
+# Tiedon tiivistys
 
-## Määrittelydokumentti
+![Määrittelydokumentti](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Maarittelydokumentti.md)
 
-### Kieli
-Python sekä ohjelmoinnissa että vertaisarvioinnissa.
+![Viikkoraportti 1](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Viikkoraportti1.md)
+
+![Viikkoraportti 2](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Viikkoraportti2.md)
