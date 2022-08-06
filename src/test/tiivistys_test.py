@@ -1,4 +1,3 @@
-
 import unittest
 from tiivistys import Tiivistys
 
