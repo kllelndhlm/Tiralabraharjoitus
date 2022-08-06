@@ -1,7 +1,8 @@
-import unittest
+from huffman import Huffman
 
 def main():
-    print("Hello world!") #koodi on vielä pelkkää placeholderia
+    huffman = Huffman
+    huffman.tervehdys()
 
 if __name__ == "__main__":
     main()
