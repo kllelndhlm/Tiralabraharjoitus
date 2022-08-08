@@ -3,7 +3,8 @@ class Huffman:
         self.teksti = teksti
 
     def esiintymistiheys(self):
-        sanakirja = dict()
+        sanakirja = {}
+
         for i in self.teksti:
             if i not in sanakirja:
                 sanakirja[i] = 1
@@ -12,6 +13,17 @@ class Huffman:
 
         return sanakirja
 
-    def __str__(self):
-        return f"{self.teksti}" 
 
+
+    def __str__(self):
+        return f"{self.teksti}"
+
+
+
+
+    def jarjestaminen(self):
+        sanakirja = self.esiintymistiheys()
+
+        jarjestetty_sanakirja = sorted(sanakirja.items(), key=lambda kv: kv[1], reverse=True)
+
+        return jarjestetty_sanakirja

@@ -1,6 +1,5 @@
-from huffman import Huffman
-
 def main():
-    huffman = Huffman
+    print("HUFFMAN!")
+
 if __name__ == "__main__":
     main()
