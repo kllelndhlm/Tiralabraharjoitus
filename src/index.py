@@ -1,5 +1,6 @@
 def main():
-    print("HUFFMAN!")
-
+    luettuTeksti = input("HUFFMAN?")
+    if luettuTeksti == "y":
+        print("HUFFMAN!!!")
 if __name__ == "__main__":
     main()
