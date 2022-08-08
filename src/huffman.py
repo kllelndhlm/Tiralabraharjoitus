@@ -13,17 +13,12 @@ class Huffman:
 
         return sanakirja
 
-
-
-    def __str__(self):
-        return f"{self.teksti}"
-
-
-
-
     def jarjestaminen(self):
         sanakirja = self.esiintymistiheys()
 
-        jarjestetty_sanakirja = sorted(sanakirja.items(), key=lambda kv: kv[1], reverse=True)
+        jarjestetty_sanakirja = sorted(sanakirja.items(), key=lambda x: x[1], reverse=True)
 
         return jarjestetty_sanakirja
+
+    def __str__(self):
+        return f"{self.teksti}"
