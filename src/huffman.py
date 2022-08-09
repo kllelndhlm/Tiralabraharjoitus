@@ -16,7 +16,7 @@ class Huffman:
     def jarjestaminen(self):
         sanakirja = self.esiintymistiheys()
 
-        jarjestetty_sanakirja = sorted(sanakirja.items(), key=lambda x: x[1], reverse=True)
+        jarjestetty_sanakirja = sorted(sanakirja.items(), key=lambda x: x[1])
 
         return jarjestetty_sanakirja
 
