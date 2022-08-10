@@ -4,3 +4,4 @@ class Alkio:
         self.esiintymistiheys = esiintymistiheys
         self.vasen_lapsi = vasen_lapsi
         self.oikea_lapsi = oikea_lapsi
+        self.bitti = ""
