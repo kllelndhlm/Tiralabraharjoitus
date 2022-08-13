@@ -9,7 +9,7 @@ class Huffman:
         self.tiivistetty_teksti = ""
         self.padding = 0
 
-    def esiintymistiheys(self):
+    def laske_esiintymistiheys(self):
         for i in self.teksti:
             if i not in self.sanakirja:
                 self.sanakirja[i] = 1
@@ -51,28 +51,24 @@ class Huffman:
         for m in self.teksti:
             bittijonoja_yhdistettavaksi.append(self.bittijonot[m])
         self.tiivistetty_teksti = "".join(f"{k}" for k in bittijonoja_yhdistettavaksi)
-        print(self.tiivistetty_teksti)
+
+    def tiivistetty_on_kahdeksalla_jaollinen(self):
         if len(self.tiivistetty_teksti) % 8 != 0:
             self.padding = 8 - (len(self.tiivistetty_teksti) % 8)
             binaariksi = self.padding * "0" + self.tiivistetty_teksti
         else:
             binaariksi = self.tiivistetty_teksti
-        print(len(binaariksi))
         bittivirta = bytearray(int(binaariksi[x:x+8], 2) for x in range(0, len(binaariksi), 8))
         with open("../Tiralabraharjoitus/src/test/testitallennus.txt", "wb") as f:
             f.write(bittivirta)
 
     def tiivistys(self):
-        self.esiintymistiheys()
+        self.laske_esiintymistiheys()
         self.luo_alkiot()
         self.luo_puu()
         self.luo_bittijonot(self.alkiot[0])
         self.luo_tiivistetty_teksti()
-
-        #LISÄÄ:
-        #def padding_pakattuun_tiedostoon()
-        #def alkio[0]_pakattuun_tiedostoon()
-        #def pakkauksen_purku()
+        self.tiivistetty_on_kahdeksalla_jaollinen()
 
     def __str__(self):
         return f"{self.teksti}"
