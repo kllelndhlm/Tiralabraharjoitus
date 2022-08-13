@@ -69,21 +69,7 @@ class Huffman:
             f.write(self.bittivirta)
 
     def avaa_pakattu(self):
-        f = open("../Tiralabraharjoitus/src/test/testitallennus.txt","rb")
-        teksti = f.read()
-        print(teksti)        
-#        dekoodattu = codecs.decode(teksti)
-#        print(dekoodattu)
-        koodi = teksti.decode(encoding='utf-8', errors='replace') 
-        print(koodi)
-#        koodi = teksti.decode(encoding='UTF-8',errors='ignore')
-#        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", encoding="utf8", errors='ignore') as f:
-#            koodi = f.read()
-#        print(koodi)
-#        strings = "".join(map(chr, f))
-#        print(strings)
-
-        f.close()
+        pass
 
     def pura_pakattu(self):
         pass
