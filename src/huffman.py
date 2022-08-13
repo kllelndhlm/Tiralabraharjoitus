@@ -1,4 +1,3 @@
-import codecs
 from huffman_alkio import Alkio
 
 class Huffman:
@@ -65,6 +64,7 @@ class Huffman:
 
     def tallennus_bitteina(self):
         self.bittivirta = bytearray(int(self.binaariksi[x:x+8], 2) for x in range(0, len(self.binaariksi), 8))
+        print(self.bittivirta)
         with open("../Tiralabraharjoitus/src/test/testitallennus.txt", "wb") as f:
             f.write(self.bittivirta)
 
