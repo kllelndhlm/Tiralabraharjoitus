@@ -9,5 +9,6 @@ def main():
         with open(f"{tiedostokysely}", encoding="utf-8") as teksti:
             huffman = Huffman(teksti.read())
             Huffman.tiivistys(huffman)
+            Huffman.purku(huffman)
 if __name__ == "__main__":
     main()

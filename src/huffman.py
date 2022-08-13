@@ -1,3 +1,4 @@
+import codecs
 from huffman_alkio import Alkio
 
 class Huffman:
@@ -64,11 +65,25 @@ class Huffman:
 
     def tallennus_bitteina(self):
         self.bittivirta = bytearray(int(self.binaariksi[x:x+8], 2) for x in range(0, len(self.binaariksi), 8))
-        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", "wb") as f:
+        with open("../Tiralabraharjoitus/src/test/testitallennus.txt", "wb") as f:
             f.write(self.bittivirta)
 
     def avaa_pakattu(self):
-        pass
+        f = open("../Tiralabraharjoitus/src/test/testitallennus.txt","rb")
+        teksti = f.read()
+        print(teksti)        
+#        dekoodattu = codecs.decode(teksti)
+#        print(dekoodattu)
+        koodi = teksti.decode(encoding='utf-8', errors='replace') 
+        print(koodi)
+#        koodi = teksti.decode(encoding='UTF-8',errors='ignore')
+#        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", encoding="utf8", errors='ignore') as f:
+#            koodi = f.read()
+#        print(koodi)
+#        strings = "".join(map(chr, f))
+#        print(strings)
+
+        f.close()
 
     def pura_pakattu(self):
         pass
@@ -84,9 +99,9 @@ class Huffman:
         self.luo_tiivistetty_teksti()
         self.tiivistetty_on_kahdeksalla_jaollinen()
         self.tallennus_bitteina()
-        self.purku()
 
     def purku(self):
+        print("Puretaan...")
         self.avaa_pakattu()
         self.pura_pakattu()
         self.tallenna_purettu()
