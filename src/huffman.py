@@ -21,6 +21,7 @@ class Huffman:
 
     def jarjestaminen(self):
         self.alkiot = sorted(self.alkiot, key=lambda x: x.esiintymistiheys)
+        return self.alkiot
 
     def luo_alkiot(self):
         merkkiarvoparit = self.sanakirja
@@ -63,8 +64,17 @@ class Huffman:
 
     def tallennus_bitteina(self):
         self.bittivirta = bytearray(int(self.binaariksi[x:x+8], 2) for x in range(0, len(self.binaariksi), 8))
-        with open("../Tiralabraharjoitus/src/test/testitallennus.txt", "wb") as f:
+        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", "wb") as f:
             f.write(self.bittivirta)
+
+    def avaa_pakattu(self):
+        pass
+
+    def pura_pakattu(self):
+        pass
+
+    def tallenna_purettu(self):
+        pass
 
     def tiivistys(self):
         self.laske_esiintymistiheys()
@@ -74,6 +84,12 @@ class Huffman:
         self.luo_tiivistetty_teksti()
         self.tiivistetty_on_kahdeksalla_jaollinen()
         self.tallennus_bitteina()
+        self.purku()
+
+    def purku(self):
+        self.avaa_pakattu()
+        self.pura_pakattu()
+        self.tallenna_purettu()
 
     def __str__(self):
         return f"{self.teksti}"

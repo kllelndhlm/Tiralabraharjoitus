@@ -25,5 +25,4 @@ class TestHuffman(unittest.TestCase):
     def test_jarjestaminen(self):
         jarjestaminen = str(self.huffman.jarjestaminen())
         self.assertEqual(jarjestaminen,
-        "[('T', 1), ('m', 1), ('o', 1), ('n', 1), ('k', 1), ('?', 1), \
-('!', 1), ('€', 1), ('ä', 2), (' ', 2), ('e', 2), ('s', 2), ('i', 2), ('t', 4)]")
+        "[('T', 1), ('m', 1), ('o', 1), ('n', 1), ('k', 1), ('?', 1), ('!', 1), ('€', 1), ('ä', 2), (' ', 2), ('e', 2), ('s', 2), ('i', 2), ('t', 4)]")

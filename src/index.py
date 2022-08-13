@@ -1,11 +1,11 @@
 from huffman import Huffman
 
 def main():
-    avauskysymys = input("Tiivistetäänkö huffmanilla? (y/n)")  #KOKEILUA
-    if avauskysymys == "n":  #KOKEILUA
+    avauskysymys = input("Tiivistetäänkö huffmanilla? (y/n)")
+    if avauskysymys == "n":
         main()
-    if avauskysymys == "y":  #KOKEILUA
-        tiedostokysely = input("Mikä tiivistetään huffmanilla? (tiedostopolku)")  #KOKEILUA
+    if avauskysymys == "y":
+        tiedostokysely = input("Mikä tiivistetään huffmanilla? (tiedostopolku)")
         with open(f"{tiedostokysely}", encoding="utf-8") as teksti:
             huffman = Huffman(teksti.read())
             Huffman.tiivistys(huffman)

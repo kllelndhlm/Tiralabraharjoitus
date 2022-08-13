@@ -6,3 +6,4 @@ __pycache__/
 htmlcov/
 /coverage/
 /src/test/testitallennus.txt
+/src/test/testitallennus.bin
