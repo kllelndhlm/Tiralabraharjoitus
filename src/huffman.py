@@ -39,11 +39,11 @@ class Huffman:
 
     def luo_bittijonot(self, alkio, esitys = ""):
         uusi_esitys = esitys + f"{alkio.bitti}"
-        if (alkio.oikea_lapsi):
+        if alkio.oikea_lapsi:
             self.luo_bittijonot(alkio.oikea_lapsi, uusi_esitys)
-        if (alkio.vasen_lapsi):
+        if alkio.vasen_lapsi:
             self.luo_bittijonot(alkio.vasen_lapsi, uusi_esitys)
-        if (not alkio.oikea_lapsi and not alkio.vasen_lapsi):
+        if not alkio.oikea_lapsi and not alkio.vasen_lapsi:
             self.bittijonot[alkio.merkki] = uusi_esitys
 
     def luo_tiivistetty_teksti(self):

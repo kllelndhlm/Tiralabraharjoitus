@@ -13,9 +13,9 @@ class TestHuffman(unittest.TestCase):
         self.assertEqual(tulostus, "Tämä on testiteksti?!€")
 
 #testaa laskeeko ohjelma oikean esiintymistiheyden
-    def test_esiintymistiheys(self):
-        esiintymistiheys = str(self.huffman.esiintymistiheys())
-        self.assertEqual(esiintymistiheys,
+    def test_laske_esiintymistiheys(self):
+        laske_esiintymistiheys = str(self.huffman.laske_esiintymistiheys())
+        self.assertEqual(laske_esiintymistiheys,
         "{'T': 1, 'ä': 2, 'm': 1, ' ': 2, 'o': 1, 'n': 1, 't': 4, \
 'e': 2, 's': 2, 'i': 2, 'k': 1, '?': 1, '!': 1, '€': 1}")
 
