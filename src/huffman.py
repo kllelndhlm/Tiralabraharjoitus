@@ -65,7 +65,6 @@ class Huffman:
 
     def yhdista_puu_pakattuun_erotinmerkilla(self):
         self.tiivistetty_puu_pakattuun = "".join(f"{k}" for k in self.puu_pakattuun) + "   "
-        print(self.tiivistetty_puu_pakattuun)
 
     def avaa_pakattu(self):
         pass
