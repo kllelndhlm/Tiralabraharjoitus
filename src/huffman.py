@@ -4,7 +4,6 @@ class Huffman:
     def __init__(self, teksti):
         self.teksti = teksti
         self.alkiot = []
-        self.sanakirja = dict()
         self.bittijonot = {}
         self.tiivistetty_teksti = ""
         self.padding = 0
@@ -14,15 +13,17 @@ class Huffman:
         self.tiivistetty_puu_pakattuun = ""
 
     def laske_esiintymistiheys(self):
+        sanakirja = dict()
         for i in self.teksti:
-            if i not in self.sanakirja:
-                self.sanakirja[i] = 1
+            if i not in sanakirja:
+                sanakirja[i] = 1
             else:
-                self.sanakirja[i] +=1
-        return self.sanakirja
+                sanakirja[i] +=1
+        jarjestetty_sanakirja = dict(sorted(sanakirja.items(), key=lambda x: x[1], reverse=True))
+        return jarjestetty_sanakirja
 
     def jarjesta_alkiot(self):
-        self.alkiot = sorted(self.alkiot, key=lambda x: x.esiintymistiheys, reverse=True)
+        self.alkiot = sorted(self.alkiot, key=lambda x: x.esiintymistiheys)
 
     def luo_bittijonot(self, alkio, esitys = ""):
         uusi_esitys = esitys + f"{alkio.bitti}"
@@ -40,16 +41,19 @@ class Huffman:
         self.tiivistetty_teksti = "".join(f"{k}" for k in bittijonoja_yhdistettavaksi)
 
     def tiivistetty_kahdeksalla_jaollinen(self):
-        print("tiivistetty", self.tiivistetty_teksti)
         self.padding = 8 - (len(self.tiivistetty_teksti) % 8)
+        self.bittivirta = (self.padding * "0") + self.tiivistetty_teksti
+        return self.bittivirta
 
     def tallennus_bitteina(self):
-        self.tiivistetty_kahdeksalla_jaollinen()
-        self.bittivirta = bytearray(int(self.tiivistetty_teksti[x:x+8], 2) for x in range(0, len(self.tiivistetty_teksti), 8))
-        self.bittivirta.insert(0, self.padding)
-        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", "wb") as f:
+        self.bittivirta = self.tiivistetty_kahdeksalla_jaollinen()
+        tallenna = bytearray()
+        for i in range(0, len(self.bittivirta), 8):
+            tallenna.append(int(self.bittivirta[i:i + 8], 2))
+        with open("../Tiralabraharjoitus/src/test/testitallennuspuu.bin", "wb") as f:
             f.write(bytes(self.tiivistetty_puu_pakattuun, encoding="utf-8"))
-            f.write(bytes(self.bittivirta))
+        with open("../Tiralabraharjoitus/src/test/testitallennusteksti.bin", "wb") as f:
+            f.write(bytes(tallenna))
 
     def muunna_puu_pakattuun(self, alkio):
         if alkio.vasen_lapsi is None and alkio.oikea_lapsi is None:
@@ -62,6 +66,7 @@ class Huffman:
 
     def yhdista_puu_pakattuun_erotinmerkilla(self):
         self.tiivistetty_puu_pakattuun = "".join(f"{k}" for k in self.puu_pakattuun) + "   "
+        print(self.tiivistetty_puu_pakattuun)
 
     def avaa_pakattu(self):
         pass
