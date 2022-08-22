@@ -50,9 +50,8 @@ class Huffman:
         tallenna = bytearray()
         for i in range(0, len(self.bittivirta), 8):
             tallenna.append(int(self.bittivirta[i:i + 8], 2))
-        with open("../Tiralabraharjoitus/src/test/testitallennuspuu.bin", "wb") as f:
+        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", "wb") as f:
             f.write(bytes(self.tiivistetty_puu_pakattuun, encoding="utf-8"))
-        with open("../Tiralabraharjoitus/src/test/testitallennusteksti.bin", "wb") as f:
             f.write(bytes(tallenna))
 
     def muunna_puu_pakattuun(self, alkio):
