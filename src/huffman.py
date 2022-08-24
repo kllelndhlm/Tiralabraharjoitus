@@ -11,27 +11,33 @@ class Huffman:
         self.bittivirta = ""
         self.puu_pakattuun = []
         self.tiivistetty_puu_pakattuun = ""
+        self.purun_padding = 0
+        self.purun_puu = ""
+        self.puu_alku = 0
+        self.puu_leikkaamaton = ""
+        self.puu_loppu = 0
+        self.purettu_puu_pakattu = ""
+        self.koodattu_teksti = []
+        self.i = 0
+        self.puretut_alkiot = []
+        self.purettu_bittivirta = ""
 
     def laske_esiintymistiheys(self):
-        sanakirja = dict()
+        sanakirja = {}
         for i in self.teksti:
             if i not in sanakirja:
                 sanakirja[i] = 1
             else:
                 sanakirja[i] +=1
-        jarjestetty_sanakirja = dict(sorted(sanakirja.items(), key=lambda x: x[1], reverse=True))
-        return jarjestetty_sanakirja
-
-    def jarjesta_alkiot(self):
-        self.alkiot = sorted(self.alkiot, key=lambda x: x.esiintymistiheys)
+        return sanakirja
 
     def luo_bittijonot(self, alkio, esitys = ""):
         uusi_esitys = esitys + f"{alkio.bitti}"
-        if alkio.vasen_lapsi:
-            self.luo_bittijonot(alkio.vasen_lapsi, uusi_esitys)
-        if alkio.oikea_lapsi:
-            self.luo_bittijonot(alkio.oikea_lapsi, uusi_esitys)
-        if not alkio.oikea_lapsi and not alkio.vasen_lapsi:
+        if alkio.vasen:
+            self.luo_bittijonot(alkio.vasen, uusi_esitys)
+        if alkio.oikea:
+            self.luo_bittijonot(alkio.oikea, uusi_esitys)
+        if not alkio.oikea and not alkio.vasen:
             self.bittijonot[alkio.merkki] = uusi_esitys
 
     def luo_tiivistetty_teksti(self):
@@ -42,6 +48,7 @@ class Huffman:
 
     def tiivistetty_kahdeksalla_jaollinen(self):
         self.padding = 8 - (len(self.tiivistetty_teksti) % 8)
+        print("Pakkauksen padding:", self.padding)
         self.bittivirta = (self.padding * "0") + self.tiivistetty_teksti
         return self.bittivirta
 
@@ -51,46 +58,101 @@ class Huffman:
         for i in range(0, len(self.bittivirta), 8):
             tallenna.append(int(self.bittivirta[i:i + 8], 2))
         with open("../Tiralabraharjoitus/src/test/testitallennus.bin", "wb") as f:
+            f.write(bytes(f"{self.padding}" + "   ", encoding="utf-8"))
             f.write(bytes(self.tiivistetty_puu_pakattuun, encoding="utf-8"))
             f.write(bytes(tallenna))
 
     def muunna_puu_pakattuun(self, alkio):
-        if alkio.vasen_lapsi is None and alkio.oikea_lapsi is None:
+        if alkio.vasen is None and alkio.oikea is None:
             self.puu_pakattuun.append(1)
             self.puu_pakattuun.append(alkio.merkki)
         else:
             self.puu_pakattuun.append(0)
-            self.muunna_puu_pakattuun(alkio.oikea_lapsi)
-            self.muunna_puu_pakattuun(alkio.vasen_lapsi)
+            self.muunna_puu_pakattuun(alkio.oikea)
+            self.muunna_puu_pakattuun(alkio.vasen)
+
 
     def yhdista_puu_pakattuun_erotinmerkilla(self):
         self.tiivistetty_puu_pakattuun = "".join(f"{k}" for k in self.puu_pakattuun) + "   "
 
     def avaa_pakattu(self):
-        pass
+        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", "rb") as bitit:
+            lue_bitit = bitit.read()
+            print(lue_bitit)
+            self.purun_padding = int(f"{lue_bitit}"[2])
+            print("purun padding:", self.purun_padding)
+            self.puu_alku = 6
+            self.puu_leikkaamaton = str(lue_bitit)[self.puu_alku:]
+            for i in range(len(self.puu_leikkaamaton)):
+                if self.puu_leikkaamaton[i+1:i+4] == "   ":
+                    self.puu_loppu = i+1
+                    break
+            self.purettu_puu_pakattu = self.puu_leikkaamaton[:self.puu_loppu]
+            kaikki_bitit = ''.join(format(byte, '08b') for byte in lue_bitit)
+        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", "rb") as bitit2:
+            lue_tekstia_edeltavat_bitit = bitit2.read(self.puu_loppu+6)
+            bitit_ennen_tekstia = ''.join(format(byte, '08b') for byte in lue_tekstia_edeltavat_bitit)
+            self.purettu_bittivirta = kaikki_bitit[len(bitit_ennen_tekstia) + self.purun_padding:]
+            self.koodattu_teksti = self.puu_leikkaamaton[self.puu_loppu + 3:-1]
 
-    def pura_pakattu(self):
-        pass
 
-    def tallenna_purettu(self):
-        pass
+    def pura_pakattu_puu(self):
+        if self.purettu_puu_pakattu[self.i] == 1:
+            self.i += 1
+            uusi_alkio = Alkio(0, self.purettu_puu_pakattu[self.i])
+            self.puretut_alkiot.append(uusi_alkio)
+        else:
+            self.i += 1
+            vasen_lapsi = self.pura_pakattu_puu()
+            self.i += 1
+            oikea_lapsi = self.pura_pakattu_puu()
+            uusi_alkio = Alkio(0, "0", vasen_lapsi, oikea_lapsi)
+            self.puretut_alkiot.append(uusi_alkio)
+
+    def tallenna_purettu(self, koodattu_teksti, puu):
+        alku = puu
+        purettu_teksti = []
+        for x in koodattu_teksti:
+            if x == '1':
+                puu = puu.oikea   
+            elif x == '0':
+                puu = puu.vasen
+            try:
+                if puu.vasen.merkki == None and puu.oikea.merkki == None:
+                    pass
+            except AttributeError:
+                purettu_teksti.append(puu.merkki)
+                puu = alku
+            
+        teksti = ''.join([str(item) for item in purettu_teksti])
+        with open("../Tiralabraharjoitus/src/test/testipurku.txt", 'w') as f:
+            f.write(teksti)
+
+#    def koodattu_teksti_stringiksi(self):
+#        tavut = self.koodattu_teksti
+##        print(tavut)
+#        encoded_string = tavut.encode()
+##        print(encoded_string)
+#        byte_array = bytearray(encoded_string)
+##        print(byte_array)
+##        self.purettu_bittivirta = ''.join(format(byte, '08b') for byte in byte_array)
 
     def tiivistys(self):
         merkkiarvoparit = self.laske_esiintymistiheys()
         merkit = merkkiarvoparit.keys()
-
+    
         for merkki in merkit:
-            self.alkiot.append(Alkio(merkkiarvoparit[merkki], merkki))        
+            self.alkiot.append(Alkio(merkkiarvoparit.get(merkki), merkki))        
 
         while len(self.alkiot) > 1:
-            self.jarjesta_alkiot()
-            oikea_alkio = self.alkiot[0]
-            vasen_alkio = self.alkiot[1]
-            vasen_alkio.bitti = 0
-            oikea_alkio.bitti = 1
-            uusi_alkio = Alkio(vasen_alkio.esiintymistiheys+oikea_alkio.esiintymistiheys, vasen_alkio.merkki+oikea_alkio.merkki, vasen_alkio, oikea_alkio)
-            self.alkiot.remove(vasen_alkio)
-            self.alkiot.remove(oikea_alkio)
+            self.alkiot = sorted(self.alkiot, key=lambda x: x.esiintymistiheys)
+            oikea = self.alkiot[0]
+            vasen = self.alkiot[1]
+            vasen.bitti = 0
+            oikea.bitti = 1
+            uusi_alkio = Alkio(vasen.esiintymistiheys+oikea.esiintymistiheys, vasen.merkki+oikea.merkki, vasen, oikea)
+            self.alkiot.remove(vasen)
+            self.alkiot.remove(oikea)
             self.alkiot.append(uusi_alkio)
 
         self.luo_bittijonot(self.alkiot[0])
@@ -101,8 +163,11 @@ class Huffman:
 
     def purku(self):
         self.avaa_pakattu()
-        self.pura_pakattu()
-        self.tallenna_purettu()
+#        self.alkiot = []
+#        self.pura_pakattu_puu()
+#        self.koodattu_teksti_stringiksi()
+        self.tallenna_purettu(self.purettu_bittivirta, self.alkiot[0])
+#        self.tallenna_purettu(self.bittivirta, self.alkiot[0])
 
     def __str__(self):
         return f"{self.teksti}"

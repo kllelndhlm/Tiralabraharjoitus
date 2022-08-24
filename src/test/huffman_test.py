@@ -4,7 +4,7 @@ from huffman import Huffman
 #avaa testissä käytettävän tekstitiedoston
 class TestHuffman(unittest.TestCase):
     def setUp(self):
-        with open("../Tiralabraharjoitus/src/test/testiteksti.md", encoding="utf-8") as teksti:
+        with open("../Tiralabraharjoitus/src/test/testiteksti.txt", encoding="utf-8") as teksti:
             self.huffman = Huffman(teksti.read())
 
 #testaa avaako ohjelma oikean tiedoston
