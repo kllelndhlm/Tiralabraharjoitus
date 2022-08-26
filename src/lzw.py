@@ -6,9 +6,10 @@ class Lzw:
     def __init__(self, teksti):
         self.teksti = teksti
         self.sanakirjan_koko = 256
-        self.sanakirja = {chr(i): i for i in range(self.sanakirjan_koko)}
+        self.sanakirja = []
 
     def pakkaus(self):
+        self.sanakirja = {chr(i): i for i in range(self.sanakirjan_koko)}
         merkkijono = ""
         pakatut_merkit = []
 
@@ -30,6 +31,7 @@ class Lzw:
             f.write(tiedostoon)
 
     def purkaus(self):
+        self.sanakirja = {i: chr(i) for i in range(self.sanakirjan_koko)}
         purettava = pickle.loads(self.teksti)
         print(self.sanakirja)
         seuraava_koodi = 256
