@@ -16,6 +16,12 @@ def main():
         with open(f"{tiedostokysely}", encoding="utf-8") as teksti:
             lzw = Lzw(teksti.read())
             Lzw.pakkaus(lzw)
+
+    if avauskysymys == "p":
+        tiedostokysely = input("Mikä puretaan LZW:llä? (tiedostopolku)")
+        with open(f"{tiedostokysely}", "rb") as teksti:
+            data = teksti.read()
+            lzw = Lzw(data)
             Lzw.purkaus(lzw)
 
 if __name__ == "__main__":

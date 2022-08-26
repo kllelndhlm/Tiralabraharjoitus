@@ -30,14 +30,13 @@ class Lzw:
             f.write(tiedostoon)
 
     def purkaus(self):
-        with open("../Tiralabraharjoitus/src/test/testipakkausLZW.bin", "rb") as f2:
-            lue = f2.read()
-        purettava = pickle.loads(lue)
-        print("Purettava:", purettava)
+        purettava = pickle.loads(self.teksti)
+        print(self.sanakirja)
         seuraava_koodi = 256
         merkkijono = ""
         purettu = ""
         
+
         for koodi in purettava:
             if not (koodi in self.sanakirja):
                 self.sanakirja[koodi] = merkkijono + (merkkijono[0])
