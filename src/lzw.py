@@ -35,16 +35,36 @@ class Lzw:
         seuraava_koodi = 256
         merkkijono = ""
         purettu = ""
-        
 
-        for koodi in purettava:
-            if not (koodi in self.sanakirja):
-                self.sanakirja[koodi] = merkkijono + (merkkijono[0])
-            purettu += self.sanakirja[koodi]
-            if not(len(merkkijono) == 0):
-                self.sanakirja[seuraava_koodi] = merkkijono + (self.sanakirja[koodi][0])
-                seuraava_koodi += 1
-            merkkijono = self.sanakirja[koodi]
+###<TESTING>
+        merkkijono = str(purettava.pop(0))
+        purettu = purettu + merkkijono
+        for merkki in purettava:
+            print(merkki)
+            if merkki in self.sanakirja:
+                kirjoita = self.sanakirja[merkki]
+                purettu = purettu + kirjoita
+
+            elif merkki == self.sanakirjan_koko:
+                kirjoita = merkkijono + merkkijono[0]
+                purettu = purettu + kirjoita
+
+            self.sanakirja[self.sanakirjan_koko] = merkkijono + kirjoita[0]
+            self.sanakirjan_koko += 1
+     
+            merkkijono = kirjoita
+
+
+###</TESTING>
+
+#        for koodi in purettava:
+#            if not (koodi in self.sanakirja):
+#                self.sanakirja[koodi] = merkkijono + (merkkijono[0])
+#            purettu += self.sanakirja[koodi]
+#            if not(len(merkkijono) == 0):
+#                self.sanakirja[seuraava_koodi] = merkkijono + (self.sanakirja[koodi][0])
+#                seuraava_koodi += 1
+#            merkkijono = self.sanakirja[koodi]
 
         with open("../Tiralabraharjoitus/src/test/testipurkausLZW.txt", 'w') as f:
             f.write(purettu)
