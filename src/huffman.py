@@ -1,7 +1,7 @@
 from huffman_alkio import Alkio
 
 class Huffman:
-    def __init__(self, teksti):
+    def __init__(self, teksti, tiedostopolku):
         self.teksti = teksti
         self.alkiot = []
         self.bittijonot = {}
@@ -20,6 +20,7 @@ class Huffman:
         self.puretut_alkiot = []
         self.purettu_bittivirta = ""
         self.purettu_puu = ""
+        self.tiedostopolku = tiedostopolku
 
     def laske_esiintymistiheys(self):
         sanakirja = {}
@@ -55,7 +56,9 @@ class Huffman:
         tallenna = bytearray()
         for i in range(0, len(self.bittivirta), 8):
             tallenna.append(int(self.bittivirta[i:i + 8], 2))
-        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", "wb") as f:
+        tiedostonnimi = f"{self.tiedostopolku}".rsplit('.',1)[0]
+        polku_tiedostoon = tiedostonnimi + "_huffman.bin"
+        with open(polku_tiedostoon, "wb") as f:
             f.write(bytes(f"{self.padding}" + "   ", encoding="utf-8"))
             f.write(bytes(self.tiivistetty_puu_pakattuun, encoding="utf-8"))
             f.write(bytes(tallenna))
@@ -76,7 +79,7 @@ class Huffman:
         self.tiivistetty_puu_pakattuun = "".join(f"{k}" for k in self.puu_pakattuun) + "   "
 
     def avaa_pakattu(self):
-        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", "rb") as bitit:
+        with open(f"{self.tiedostopolku}", "rb") as bitit:
             lue_bitit = bitit.read()
             self.purun_padding = int(f"{lue_bitit}"[2])
             self.puu_alku = 6
@@ -87,14 +90,14 @@ class Huffman:
                     break
             self.purettu_puu_pakattu = self.puu_leikkaamaton[:self.puu_loppu]
             kaikki_bitit = ''.join(format(byte, '08b') for byte in lue_bitit)
-        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", "rb") as bitit2:
+        with open(f"{self.tiedostopolku}", "rb") as bitit2:
             lue_tekstia_edeltavat_bitit = bitit2.read(self.puu_loppu+6)
             bitit_ennen_tekstia = ''.join(format(byte, '08b') for byte in lue_tekstia_edeltavat_bitit)
             self.purettu_bittivirta = kaikki_bitit[len(bitit_ennen_tekstia) + self.purun_padding:]
             self.koodattu_teksti = self.puu_leikkaamaton[self.puu_loppu + 3:-1]
 
     def pura_pakattu_puu(self):
-        with open("../Tiralabraharjoitus/src/test/testitallennus.bin", "rb") as bitit3:
+        with open(f"{self.tiedostopolku}", "rb") as bitit3:
             bitit_puuhun = bitit3.read(self.puu_loppu+3)      
         for i in range(len(bitit_puuhun)):
             merkki = bitit_puuhun[i:i+1].decode("utf-8")
@@ -119,7 +122,6 @@ class Huffman:
             self.puretut_alkiot.append(uusi_alkio)
 
         return uusi_alkio
-
 
     def tiivistys(self):
         merkkiarvoparit = self.laske_esiintymistiheys()
@@ -163,8 +165,14 @@ class Huffman:
                 purkupuu = alku
 
         teksti = ''.join([str(item) for item in purettu_teksti])
-        with open("../Tiralabraharjoitus/src/test/testipurku.txt", 'w') as f:
+
+        tiedostonnimi = f"{self.tiedostopolku}".rsplit('.',1)[0]
+        polku_tiedostoon = tiedostonnimi + "_huffman_purettu.txt"
+        with open(polku_tiedostoon, 'w') as f:
             f.write(teksti)
 
     def __str__(self):
         return f"{self.teksti}"
+
+#Pohjana käytetty: https://towardsdatascience.com/huffman-encoding-python-implementation-8448c3654328
+#Lähteet: https://stackoverflow.com/questions/759707/efficient-way-of-storing-huffman-tree
