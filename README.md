@@ -17,4 +17,4 @@
 
 ![Viikkoraportti 5](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Viikkoraportti5.md)
 
-![Viikkoraportti 5](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Viikkoraportti6.md)
+![Viikkoraportti 6](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Viikkoraportti6.md)
