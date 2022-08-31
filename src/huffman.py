@@ -4,7 +4,7 @@ class Huffman:
     def __init__(self, teksti, tiedostopolku):
         self.teksti = teksti
         self.tiedostopolku = tiedostopolku
-        self.tiivistetty_puu_pakattuun = ""
+        self.pakattu_puu_pakattuun = ""
 
     def laske_esiintymistiheys(self):
         sanakirja = {}
@@ -26,24 +26,24 @@ class Huffman:
         if not alkio.oikea and not alkio.vasen:
             self.bittijonot[alkio.merkki] = uusi_esitys
 
-    tiivistetty_teksti = ""
+    pakattu_teksti = ""
 
-    def luo_tiivistetty_teksti(self):
+    def luo_pakattu_teksti(self):
         bittijonoja_yhdistettavaksi = []
         for merkki in self.teksti:
             bittijonoja_yhdistettavaksi.append(self.bittijonot[merkki])
-        self.tiivistetty_teksti = "".join(f"{k}" for k in bittijonoja_yhdistettavaksi)
+        self.pakattu_teksti = "".join(f"{k}" for k in bittijonoja_yhdistettavaksi)
 
     padding = 0
     bittivirta = ""
 
-    def tiivistetty_kahdeksalla_jaollinen(self):
-        self.padding = 8 - (len(self.tiivistetty_teksti) % 8)
-        self.bittivirta = (self.padding * "0") + self.tiivistetty_teksti
+    def pakattu_kahdeksalla_jaollinen(self):
+        self.padding = 8 - (len(self.pakattu_teksti) % 8)
+        self.bittivirta = (self.padding * "0") + self.pakattu_teksti
         return self.bittivirta
 
     def tallennus_bitteina(self):
-        self.bittivirta = self.tiivistetty_kahdeksalla_jaollinen()
+        self.bittivirta = self.pakattu_kahdeksalla_jaollinen()
         tallenna = bytearray()
 
         for i in range(0, len(self.bittivirta), 8):
@@ -51,10 +51,10 @@ class Huffman:
 
         tiedostopolku_pakattuun = f"{self.tiedostopolku}".rsplit('.',1)[0] + "_huffman.bin"
 
-        with open(tiedostopolku_pakattuun, "wb") as f:
-            f.write(bytes(f"{self.padding}" + "   ", encoding="utf-8"))
-            f.write(bytes(self.tiivistetty_puu_pakattuun, encoding="utf-8"))
-            f.write(bytes(tallenna))
+        with open(tiedostopolku_pakattuun, "wb") as tiedosto:
+            tiedosto.write(bytes(f"{self.padding}" + "   ", encoding="utf-8"))
+            tiedosto.write(bytes(self.pakattu_puu_pakattuun, encoding="utf-8"))
+            tiedosto.write(bytes(tallenna))
 
         return tiedostopolku_pakattuun
 
@@ -71,11 +71,11 @@ class Huffman:
 
 
     def yhdista_puu_pakattuun_erotinmerkilla(self):
-        self.tiivistetty_puu_pakattuun = "".join(f"{k}" for k in self.puu_pakattuun) + "   "
+        self.pakattu_puu_pakattuun = "".join(f"{k}" for k in self.puu_pakattuun) + "   "
 
     alkiot = []
 
-    def tiivistys(self):
+    def pakkaus(self):
         merkkiarvoparit = self.laske_esiintymistiheys()
         merkit = merkkiarvoparit.keys()
 
@@ -88,12 +88,15 @@ class Huffman:
             vasen = self.alkiot[1]
             vasen.bitti = 0
             oikea.bitti = 1
-            uusi_alkio = Alkio(vasen.esiintymistiheys+oikea.esiintymistiheys, vasen.merkki+oikea.merkki, vasen, oikea)
+
+            uusi_alkio = Alkio(vasen.esiintymistiheys+oikea.esiintymistiheys,
+vasen.merkki+oikea.merkki, vasen, oikea)
             self.alkiot.remove(vasen)
             self.alkiot.remove(oikea)
             self.alkiot.append(uusi_alkio)
+
         self.luo_bittijonot(self.alkiot[0])
-        self.luo_tiivistetty_teksti()
+        self.luo_pakattu_teksti()
         self.muunna_puu_pakattuun(self.alkiot[0])
         self.yhdista_puu_pakattuun_erotinmerkilla()
         polku = self.tallennus_bitteina()
@@ -102,5 +105,7 @@ class Huffman:
     def __str__(self):
         return f"{self.teksti}"
 
-#Pohjana käytetty: https://towardsdatascience.com/huffman-encoding-python-implementation-8448c3654328
-#Lähteet: https://stackoverflow.com/questions/759707/efficient-way-of-storing-huffman-tree
+#Pohjana käytetty:
+#https://towardsdatascience.com/huffman-encoding-python-implementation-8448c3654328
+#Lähteet:
+#https://stackoverflow.com/questions/759707/efficient-way-of-storing-huffman-tree

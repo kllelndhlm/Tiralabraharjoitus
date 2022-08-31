@@ -7,3 +7,7 @@ htmlcov/
 /coverage/
 /src/test/testitallennus.bin
 /src/test/testipurku.txt
+*huffman.bin
+*LZW.bin
+*_purettu.txt
+

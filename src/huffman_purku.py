@@ -1,6 +1,6 @@
 from huffman_alkio import Alkio
 
-class Huffman_purku:
+class Huffmanpurku:
     def __init__(self, teksti, tiedostopolku):
         self.teksti = teksti
         self.tiedostopolku = tiedostopolku
@@ -20,16 +20,17 @@ class Huffman_purku:
 
         with open(f"{self.tiedostopolku}", "rb") as bitit2:
             lue_tekstia_edeltavat_bitit = bitit2.read(puu_loppu+6)
-            bitit_ennen_tekstia = ''.join(format(byte, '08b') for byte in lue_tekstia_edeltavat_bitit)
-            purettu_bittivirta = kaikki_bitit[len(bitit_ennen_tekstia) + int(f"{lue_bitit}"[2]):]
+            bitit_ennen_tekstia = ''.join(format(byte, '08b')
+for byte in lue_tekstia_edeltavat_bitit)
+            purettu_bittivirta = kaikki_bitit[len(bitit_ennen_tekstia)
++ int(f"{lue_bitit}"[2]):]
 
         return puu_loppu, purettu_bittivirta
 
     def pura_pakattu_puu(self, puu_loppu):
         purettu_puu = ""
-        puu_loppu = puu_loppu
         with open(f"{self.tiedostopolku}", "rb") as bitit3:
-            bitit_puuhun = bitit3.read(puu_loppu+3)      
+            bitit_puuhun = bitit3.read(puu_loppu+3)
         for i in range(len(bitit_puuhun)):
             merkki = bitit_puuhun[i:i+1].decode("utf-8")
             purettu_puu = purettu_puu + merkki
@@ -58,13 +59,13 @@ class Huffman_purku:
         purkupuu = self.luo_purkupuu(puukoodi)
         alku = purkupuu
         purettu_teksti = []
-        for x in purettu_bittivirta:
-            if x == '1':
-                purkupuu = purkupuu.oikea   
-            elif x == '0':
+        for bitti in purettu_bittivirta:
+            if bitti == '1':
+                purkupuu = purkupuu.oikea
+            elif bitti == '0':
                 purkupuu = purkupuu.vasen
             try:
-                if purkupuu.vasen.merkki == None and purkupuu.oikea.merkki == None:
+                if purkupuu.vasen.merkki is None and purkupuu.oikea.merkki is None:
                     pass
             except AttributeError:
                 purettu_teksti.append(purkupuu.merkki)
@@ -74,12 +75,14 @@ class Huffman_purku:
 
         tiedostonnimi = f"{self.tiedostopolku}".rsplit('.',1)[0]
         polku_tiedostoon = tiedostonnimi + "_purettu.txt"
-        with open(polku_tiedostoon, 'w') as f:
-            f.write(teksti)
+        with open(polku_tiedostoon, 'w', encoding="utf-8") as tiedosto:
+            tiedosto.write(teksti)
         return polku_tiedostoon
 
     def __str__(self):
         return f"{self.teksti}"
 
-#Pohjana käytetty: https://towardsdatascience.com/huffman-encoding-python-implementation-8448c3654328
-#Lähteet: https://stackoverflow.com/questions/759707/efficient-way-of-storing-huffman-tree
+#Pohjana käytetty:
+#https://towardsdatascience.com/huffman-encoding-python-implementation-8448c3654328
+#Lähteet:
+#https://stackoverflow.com/questions/759707/efficient-way-of-storing-huffman-tree
