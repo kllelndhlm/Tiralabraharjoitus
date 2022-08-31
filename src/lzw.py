@@ -39,10 +39,10 @@ class Lzw:
         purettu = ""
 
         for koodi in purettava:
-            if not (koodi in self.sanakirja):
+            if not koodi in self.sanakirja:
                 self.sanakirja[koodi] = merkkijono + (merkkijono[0])
             purettu += self.sanakirja[koodi]
-            if not(len(merkkijono) == 0):
+            if not len(merkkijono) == 0:
                 self.sanakirja[seuraava_koodi] = merkkijono + (self.sanakirja[koodi][0])
                 seuraava_koodi += 1
             merkkijono = self.sanakirja[koodi]

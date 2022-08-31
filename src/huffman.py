@@ -3,24 +3,8 @@ from huffman_alkio import Alkio
 class Huffman:
     def __init__(self, teksti, tiedostopolku):
         self.teksti = teksti
-        self.alkiot = []
-        self.bittijonot = {}
-        self.tiivistetty_teksti = ""
-        self.padding = 0
-        self.binaariksi = ""
-        self.bittivirta = ""
-        self.tiivistetty_puu_pakattuun = ""
-        self.purun_padding = 0
-        self.purun_puu = ""
-        self.puu_alku = 0
-        self.puu_leikkaamaton = ""
-        self.puu_loppu = 0
-        self.purettu_puu_pakattu = ""
-        self.koodattu_teksti = []
-        self.puretut_alkiot = []
-        self.purettu_bittivirta = ""
-        self.purettu_puu = ""
         self.tiedostopolku = tiedostopolku
+        self.tiivistetty_puu_pakattuun = ""
 
     def laske_esiintymistiheys(self):
         sanakirja = {}
@@ -31,6 +15,8 @@ class Huffman:
                 sanakirja[i] +=1
         return sanakirja
 
+    bittijonot = {}
+
     def luo_bittijonot(self, alkio, esitys = ""):
         uusi_esitys = esitys + f"{alkio.bitti}"
         if alkio.vasen:
@@ -40,11 +26,16 @@ class Huffman:
         if not alkio.oikea and not alkio.vasen:
             self.bittijonot[alkio.merkki] = uusi_esitys
 
+    tiivistetty_teksti = ""
+
     def luo_tiivistetty_teksti(self):
         bittijonoja_yhdistettavaksi = []
         for merkki in self.teksti:
             bittijonoja_yhdistettavaksi.append(self.bittijonot[merkki])
         self.tiivistetty_teksti = "".join(f"{k}" for k in bittijonoja_yhdistettavaksi)
+
+    padding = 0
+    bittivirta = ""
 
     def tiivistetty_kahdeksalla_jaollinen(self):
         self.padding = 8 - (len(self.tiivistetty_teksti) % 8)
@@ -54,14 +45,18 @@ class Huffman:
     def tallennus_bitteina(self):
         self.bittivirta = self.tiivistetty_kahdeksalla_jaollinen()
         tallenna = bytearray()
+
         for i in range(0, len(self.bittivirta), 8):
             tallenna.append(int(self.bittivirta[i:i + 8], 2))
-        tiedostonnimi = f"{self.tiedostopolku}".rsplit('.',1)[0]
-        polku_tiedostoon = tiedostonnimi + "_huffman.bin"
-        with open(polku_tiedostoon, "wb") as f:
+
+        tiedostopolku_pakattuun = f"{self.tiedostopolku}".rsplit('.',1)[0] + "_huffman.bin"
+
+        with open(tiedostopolku_pakattuun, "wb") as f:
             f.write(bytes(f"{self.padding}" + "   ", encoding="utf-8"))
             f.write(bytes(self.tiivistetty_puu_pakattuun, encoding="utf-8"))
             f.write(bytes(tallenna))
+
+        return tiedostopolku_pakattuun
 
     puu_pakattuun = []
 
@@ -78,55 +73,12 @@ class Huffman:
     def yhdista_puu_pakattuun_erotinmerkilla(self):
         self.tiivistetty_puu_pakattuun = "".join(f"{k}" for k in self.puu_pakattuun) + "   "
 
-    def avaa_pakattu(self):
-        with open(f"{self.tiedostopolku}", "rb") as bitit:
-            lue_bitit = bitit.read()
-            self.purun_padding = int(f"{lue_bitit}"[2])
-            self.puu_alku = 6
-            self.puu_leikkaamaton = str(lue_bitit)[self.puu_alku:]
-            for i in range(len(self.puu_leikkaamaton)):
-                if self.puu_leikkaamaton[i+1:i+4] == "   ":
-                    self.puu_loppu = i+1
-                    break
-            self.purettu_puu_pakattu = self.puu_leikkaamaton[:self.puu_loppu]
-            kaikki_bitit = ''.join(format(byte, '08b') for byte in lue_bitit)
-        with open(f"{self.tiedostopolku}", "rb") as bitit2:
-            lue_tekstia_edeltavat_bitit = bitit2.read(self.puu_loppu+6)
-            bitit_ennen_tekstia = ''.join(format(byte, '08b') for byte in lue_tekstia_edeltavat_bitit)
-            self.purettu_bittivirta = kaikki_bitit[len(bitit_ennen_tekstia) + self.purun_padding:]
-            self.koodattu_teksti = self.puu_leikkaamaton[self.puu_loppu + 3:-1]
-
-    def pura_pakattu_puu(self):
-        with open(f"{self.tiedostopolku}", "rb") as bitit3:
-            bitit_puuhun = bitit3.read(self.puu_loppu+3)      
-        for i in range(len(bitit_puuhun)):
-            merkki = bitit_puuhun[i:i+1].decode("utf-8")
-            self.purettu_puu = self.purettu_puu + merkki
-        self.purettu_puu = self.purettu_puu[4:]
-        return self.purettu_puu
-
-    i = 0
-
-    def luo_purkupuu(self, puukoodi):
-        if puukoodi[self.i] == "1":
-            self.i += 1
-            uusi_alkio = Alkio(0, puukoodi[self.i])
-            self.puretut_alkiot.append(uusi_alkio)
-
-        else:
-            self.i += 1
-            vasen = self.luo_purkupuu(puukoodi)
-            self.i += 1
-            oikea= self.luo_purkupuu(puukoodi)
-            uusi_alkio = Alkio(0, "0", vasen, oikea)
-            self.puretut_alkiot.append(uusi_alkio)
-
-        return uusi_alkio
+    alkiot = []
 
     def tiivistys(self):
         merkkiarvoparit = self.laske_esiintymistiheys()
         merkit = merkkiarvoparit.keys()
-    
+
         for merkki in merkit:
             self.alkiot.append(Alkio(merkkiarvoparit.get(merkki), merkki))
 
@@ -144,32 +96,8 @@ class Huffman:
         self.luo_tiivistetty_teksti()
         self.muunna_puu_pakattuun(self.alkiot[0])
         self.yhdista_puu_pakattuun_erotinmerkilla()
-        self.tallennus_bitteina()
-
-    def purku(self):
-        self.avaa_pakattu()
-        puukoodi = self.pura_pakattu_puu()
-        purkupuu = self.luo_purkupuu(puukoodi)
-        alku = purkupuu
-        purettu_teksti = []
-        for x in self.purettu_bittivirta:
-            if x == '1':
-                purkupuu = purkupuu.oikea   
-            elif x == '0':
-                purkupuu = purkupuu.vasen
-            try:
-                if purkupuu.vasen.merkki == None and purkupuu.oikea.merkki == None:
-                    pass
-            except AttributeError:
-                purettu_teksti.append(purkupuu.merkki)
-                purkupuu = alku
-
-        teksti = ''.join([str(item) for item in purettu_teksti])
-
-        tiedostonnimi = f"{self.tiedostopolku}".rsplit('.',1)[0]
-        polku_tiedostoon = tiedostonnimi + "_huffman_purettu.txt"
-        with open(polku_tiedostoon, 'w') as f:
-            f.write(teksti)
+        polku = self.tallennus_bitteina()
+        return polku
 
     def __str__(self):
         return f"{self.teksti}"
