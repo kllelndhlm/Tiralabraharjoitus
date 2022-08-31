@@ -9,21 +9,20 @@ class TestHuffman(unittest.TestCase):
     def setUp(self):
         tiedostokysely = "../Tiralabraharjoitus/testiteksti.txt"
         with open(f"{tiedostokysely}", encoding="utf-8") as teksti:
-            self.huffman = Huffman(teksti.read(), tiedostokysely)
-            pakkaus = Huffman.pakkaus(self.huffman)
+            self.huffman = Huffman("QQWERTY", "../Tiralabraharjoitus/testiteksti.txt")
 
 #testaa avaako ohjelma oikean tiedoston
     def test_tulostus_oikein(self):
         tulostus = str(self.huffman)
-        self.assertEqual(tulostus, "QWERTY")
+        self.assertEqual(tulostus, "QQWERTY")
 
 #testaa laskeeko ohjelma oikean esiintymistiheyden
     def test_laske_esiintymistiheys(self):
         laske_esiintymistiheys = str(self.huffman.laske_esiintymistiheys())
         self.assertEqual(laske_esiintymistiheys,
-"{'Q': 1, 'W': 1, 'E': 1, 'R': 1, 'T': 1, 'Y': 1}")
+"{'Q': 2, 'W': 1, 'E': 1, 'R': 1, 'T': 1, 'Y': 1}")
 
-    def test_spakkaus(self):
+    def test_pakkaus(self):
         pakkaus = str(self.huffman.pakkaus())
         self.assertEqual(pakkaus,
 "../Tiralabraharjoitus/testiteksti_huffman.bin")
