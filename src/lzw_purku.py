@@ -24,7 +24,7 @@ class Lzwpurku:
             merkkijono = self.sanakirja[koodi]
 
         tiedostonnimi = f"{self.tiedostopolku}".rsplit('.',1)[0]
-        polku_tiedostoon = tiedostonnimi + "_lzw_purettu.txt"
+        polku_tiedostoon = tiedostonnimi + "_purettu.txt"
         with open(polku_tiedostoon, 'w', encoding="utf-8") as tiedosto:
             tiedosto.write(purettu)
         return polku_tiedostoon
