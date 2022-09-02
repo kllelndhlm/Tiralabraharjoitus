@@ -9,21 +9,22 @@ class TestHuffman(unittest.TestCase):
     def setUp(self):
         tiedostokysely = "../Tiralabraharjoitus/testiteksti.txt"
         with open(f"{tiedostokysely}", encoding="utf-8") as teksti:
-            self.huffman = Huffman("QQWERTY", "../Tiralabraharjoitus/testiteksti.txt")
+            self.huffman = Huffman("QQ\nWERTY", "../Tiralabraharjoitus/testiteksti.txt")
 
 #testaa avaako ohjelma oikean tiedoston
     def test_tulostus_oikein(self):
-        tulostus = str(self.huffman)
-        self.assertEqual(tulostus, "QQWERTY")
+        tulostus = f"{self.huffman}"
+        self.assertEqual(tulostus, "QQ\nWERTY")
 
 #testaa laskeeko ohjelma oikean esiintymistiheyden
     def test_laske_esiintymistiheys(self):
-        laske_esiintymistiheys = str(self.huffman.laske_esiintymistiheys())
+        laske_esiintymistiheys = f"{self.huffman.laske_esiintymistiheys()}"
         self.assertEqual(laske_esiintymistiheys,
-"{'Q': 2, 'W': 1, 'E': 1, 'R': 1, 'T': 1, 'Y': 1}")
+"{'Q': 2, '\\n': 1, 'W': 1, 'E': 1, 'R': 1, 'T': 1, 'Y': 1}")
 
+#testaa palauttaako pakkaus oikein
     def test_pakkaus(self):
-        pakkaus = str(self.huffman.pakkaus())
+        pakkaus = f"{self.huffman.pakkaus()}"
         self.assertEqual(pakkaus,
 "../Tiralabraharjoitus/testiteksti_huffman.bin")
 
@@ -37,3 +38,9 @@ class TestHuffman(unittest.TestCase):
 #        self.assertEqual(jarjestaminen,
 #        "[('T', 1), ('m', 1), ('o', 1), ('n', 1), ('k', 1), ('?', 1), ('!', 1), ('€', 1), ('ä', 2), (' ', 2), ('e', 2), ('s', 2), ('i', 2), ('t', 4)]")
 #
+#avaa testissä käytettävän tekstitiedoston
+class TestHuffmanpurku(unittest.TestCase):
+    def setUp(self):
+        tiedostokysely = "../Tiralabraharjoitus/testiteksti.txt"
+        with open(f"{tiedostokysely}", encoding="utf-8") as teksti:
+            self.huffman_purku = Huffmanpurku("b'2   0001Y1T01R1E001W1\n1Q   >\xc6\x88'", "../Tiralabraharjoitus/testiteksti_huffman.bin")

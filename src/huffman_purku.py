@@ -24,7 +24,6 @@ class Huffmanpurku:
 for byte in lue_tekstia_edeltavat_bitit)
             purettu_bittivirta = kaikki_bitit[len(bitit_ennen_tekstia)
 + int(f"{lue_bitit}"[2]):]
-
         return puu_loppu, purettu_bittivirta
 
     def pura_pakattu_puu(self, puu_loppu):
@@ -35,6 +34,7 @@ for byte in lue_tekstia_edeltavat_bitit)
             merkki = bitit_puuhun[i:i+1].decode("utf-8")
             purettu_puu = purettu_puu + merkki
         purettu_puu = purettu_puu[4:]
+        print(purettu_puu)
         return purettu_puu
 
     i = 0
@@ -50,7 +50,6 @@ for byte in lue_tekstia_edeltavat_bitit)
             self.i += 1
             oikea= self.luo_purkupuu(puukoodi)
             uusi_alkio = Alkio(0, "0", vasen, oikea)
-
         return uusi_alkio
 
     def purku(self):
