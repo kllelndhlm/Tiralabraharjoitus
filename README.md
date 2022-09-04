@@ -5,9 +5,9 @@
 
 ![Määrittelydokumentti](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Maarittelydokumentti.md)
 
-![Testausdokumentti](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Testausdokumentti.md)
-
 ![Toteutusdokumentti](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Toteutusdokumentti.md)
+
+![Testausdokumentti](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Testausdokumentti.md)
 
 ![Viikkoraportti 1](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Viikkoraportti1.md)
 
