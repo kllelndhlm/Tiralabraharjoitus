@@ -42,6 +42,7 @@ esimerkiksi
 ```bash
 testiteksti.txt
 ```
+Huom: Pakatun tiedoston voi avata vain pakkausta vastaavalla purkualgoritmilla.
 
 ## Testaus
 ### Suorita testit
