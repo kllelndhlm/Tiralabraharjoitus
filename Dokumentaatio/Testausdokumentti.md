@@ -48,3 +48,4 @@ Lempel-Ziv-Welch
 |lorem ipsum|1 MB|432,4 kB|43,1 % %|0,213481021 s| 0,11237909200000001 s|
 |1010...|1 MB| 14,0 kB|1,4 %| 0,199034942 s| 0,018339670000000002 s |
 
+Tulosten perusteella pienten tiedostojen pakkaus on ilmeisen turhaa. Huffman alkaa toimimaan positiivisella tavalla pienemmissä tiedostoissa aiemmin kuin Lempel-Ziv-Welch. Lempel-Ziv-Welch alkaa tiedostojen suuretessa osoittaa paremmuutensa pakkaussuhteen parantuessa. Huffmanin suoritusaika pitenee huomattavasti tiedostojen kasvaessa, toisin kuin tasaisempi Lempel-Ziv-Welch. Tämän perusteella toteutukset ovat ainakin lähelle tavoiteltuja aikavaativuuksiaan, Huffmanillä O(n log n) ja Lempel-Ziv-Welchillä O(n).
