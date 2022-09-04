@@ -36,7 +36,6 @@ for byte in lue_tekstia_edeltavat_bitit)
             merkki = bitit_puuhun[i:i+1].decode("utf-8")
             purettu_puu = purettu_puu + merkki
         purettu_puu = purettu_puu[4:]
-        print(purettu_puu)
         return purettu_puu
 
 #luo huffman-alkiot tekstin purkamista varten
