@@ -1,1 +1,1 @@
-![](https://github.com/kllelndhlm/Tiralabraharjoitus/blob/main/Dokumentaatio/Kuvat/Testikattavuus.jpg?raw=true)
+![](https://raw.githubusercontent.com/kllelndhlm/Tiralabraharjoitus/main/Dokumentaatio/Kuvat/testikattavuus.jpg)
