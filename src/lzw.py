@@ -7,6 +7,10 @@ class Lzw:
         self.sanakirjan_koko = 256
         self.sanakirja = []
 
+#luo sanakirjan kaikista merkeistä
+#etsii toistuvia merkkijonoja
+#kirjoittaa pakatun tiedoston
+#palauttaa index.py'lle uuden tiedoston polun
     def pakkaus(self):
         self.sanakirja = {chr(i): i for i in range(self.sanakirjan_koko)}
         merkkijono = ""

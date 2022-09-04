@@ -5,6 +5,7 @@ class Huffmanpurku:
         self.teksti = teksti
         self.tiedostopolku = tiedostopolku
 
+#laskee koodatun huffman-puun sijainnin pakkauksessa ja avaa pakatun tekstin
     def avaa_pakattu(self):
         puu_loppu = 0
 
@@ -26,6 +27,7 @@ for byte in lue_tekstia_edeltavat_bitit)
 + int(f"{lue_bitit}"[2]):]
         return puu_loppu, purettu_bittivirta
 
+#purkaa huffman-puun
     def pura_pakattu_puu(self, puu_loppu):
         purettu_puu = ""
         with open(f"{self.tiedostopolku}", "rb") as bitit3:
@@ -37,6 +39,7 @@ for byte in lue_tekstia_edeltavat_bitit)
         print(purettu_puu)
         return purettu_puu
 
+#luo huffman-alkiot tekstin purkamista varten
     i = 0
 
     def luo_purkupuu(self, puukoodi):
@@ -52,6 +55,8 @@ for byte in lue_tekstia_edeltavat_bitit)
             uusi_alkio = Alkio(0, "0", vasen, oikea)
         return uusi_alkio
 
+#purkaa pakkauksen seuraamalla huffman-puuta
+#palauttaa index.py'lle uuden tiedoston polun
     def purku(self):
         puu_loppu, purettu_bittivirta = self.avaa_pakattu()
         puukoodi = self.pura_pakattu_puu(puu_loppu)

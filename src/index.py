@@ -4,6 +4,10 @@ from huffman_purku import Huffmanpurku
 from lzw import Lzw
 from lzw_purku import Lzwpurku
 
+#komentorivikäyttöliittymä
+#kysyy halutun toiminnon
+#syötetään tiedostopolku
+#tulostaa uuden tiedoston polun ja vertailun algoritmin toimivuudesta
 def main():
     avauskysymys = input(
 "Pakkaus: Huffman tai LZW? (h/lzw)\nVai purku: Huffman tai LZW? (ph/plzw)\n")

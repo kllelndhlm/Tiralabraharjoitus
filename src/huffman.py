@@ -6,6 +6,7 @@ class Huffman:
         self.tiedostopolku = tiedostopolku
         self.pakattu_puu_pakattuun = ""
 
+#luo kirjaston ja laskee pakattavan tekstin merkkien esiintymistiheydet
     def laske_esiintymistiheys(self):
         sanakirja = {}
         for i in self.teksti:
@@ -14,6 +15,9 @@ class Huffman:
             else:
                 sanakirja[i] +=1
         return sanakirja
+
+#luo kirjaston ja merkkejä vastaavat bittiesitykset 
+#bittiesityksellä tarkoitetaan tässä tapauksessa 1:iä ja 0:ia string-muodossa
 
     bittijonot = {}
 
@@ -26,6 +30,7 @@ class Huffman:
         if not alkio.oikea and not alkio.vasen:
             self.bittijonot[alkio.merkki] = uusi_esitys
 
+#luo pakattavaa tekstiä vastaavan bittiesityksen
     pakattu_teksti = ""
 
     def luo_pakattu_teksti(self):
@@ -34,6 +39,7 @@ class Huffman:
             bittijonoja_yhdistettavaksi.append(self.bittijonot[merkki])
         self.pakattu_teksti = "".join(f"{k}" for k in bittijonoja_yhdistettavaksi)
 
+#bittiesitys muutetaan kahdeksallajaolliseksi bytearrayta varten
     padding = 0
     bittivirta = ""
 
@@ -42,6 +48,9 @@ class Huffman:
         self.bittivirta = (self.padding * "0") + self.pakattu_teksti
         return self.bittivirta
 
+#pakkaustiedoston kirjoittaminen bitteinä
+#järjestyksessä kahdeksallajaollistamisen toppaus, puu, teskti
+#erotusmerkkinä käytetty kolmea välilyöntiä
     def tallennus_bitteina(self):
         self.bittivirta = self.pakattu_kahdeksalla_jaollinen()
         tallenna = bytearray()
@@ -58,6 +67,7 @@ class Huffman:
 
         return tiedostopolku_pakattuun
 
+#luodaan puu, jolla pakkaus voidaan purkaa
     puu_pakattuun = []
 
     def muunna_puu_pakattuun(self, alkio):
@@ -73,6 +83,8 @@ class Huffman:
     def yhdista_puu_pakattuun_erotinmerkilla(self):
         self.pakattu_puu_pakattuun = "".join(f"{k}" for k in self.puu_pakattuun) + "   "
 
+#luo huffmanpuun alkiot
+#palauttaa index.py'lle uuden tiedoston polun
     alkiot = []
 
     def pakkaus(self):

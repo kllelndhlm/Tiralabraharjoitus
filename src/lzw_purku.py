@@ -7,6 +7,8 @@ class Lzwpurku:
         self.sanakirjan_koko = 256
         self.sanakirja = []
 
+#luo sanakirjan kaikista merkeistä
+#laajentaa sanakirjaa ja purkaa pakatun tekstin
     def purku(self):
         self.sanakirja = {i: chr(i) for i in range(self.sanakirjan_koko)}
         purettava = pickle.loads(self.teksti)
