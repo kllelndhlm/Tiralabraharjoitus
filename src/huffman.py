@@ -16,7 +16,7 @@ class Huffman:
                 sanakirja[i] +=1
         return sanakirja
 
-#luo kirjaston ja merkkejä vastaavat bittiesitykset 
+#luo kirjaston ja merkkejä vastaavat bittiesitykset
 #bittiesityksellä tarkoitetaan tässä tapauksessa 1:iä ja 0:ia string-muodossa
 
     bittijonot = {}
